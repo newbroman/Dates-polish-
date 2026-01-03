@@ -1,86 +1,101 @@
-/* --- Base Theme Variables --- */
+/* --- Base Variables & Layout --- */
 :root {
-  --bg-color: #f8f9fa;
-  --container-bg: #ffffff;
-  --text-primary: #2d3436;
-  --accent-color: #dc143c; /* Default Polish Crimson */
-  --border-color: #dfe6e9;
-  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --bg-color: #121212;
+  --container-bg: #1e1e1e;
+  --text-primary: #ffffff;
+  --accent-color: #dc143c; /* Polish Crimson */
+  --border-color: #333333;
 }
 
-/* --- Seasonal Classes (Applied to <body>) --- */
+/* --- Seasonal Themes from cultural.js --- */
 body.winter { --accent-color: #0984e3; }
 body.spring { --accent-color: #27ae60; }
 body.summer { --accent-color: #f1c40f; }
 body.autumn { --accent-color: #d35400; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-color: #121212;
-    --container-bg: #1e1e1e;
-    --text-primary: #ffffff;
-    --border-color: #333333;
-  }
-}
-
-/* --- App Layout --- */
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-primary);
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow: hidden;
 }
 
-/* --- Calendar Components --- */
+/* --- Calendar Header & Grid --- */
+.calendar-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
+  gap: 5px;
   padding: 15px;
   background: var(--container-bg);
+  margin: 0 10px;
   border-radius: 12px;
-  box-shadow: var(--shadow);
 }
 
-.calendar-day.holiday {
-  border: 2px solid var(--accent-color);
-  color: var(--accent-color);
-  font-weight: bold;
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 .calendar-day.selected {
   background: var(--accent-color);
   color: white;
+  font-weight: bold;
 }
 
-/* --- Grammar Guide Card --- */
-.grammar-guide-card {
-  background: var(--accent-color);
-  color: white;
-  padding: 20px;
-  border-radius: 15px;
-  margin-bottom: 20px;
-}
-
-.guide-section h4 {
-  margin: 10px 0 5px 0;
-  text-decoration: underline;
-}
-
-.guide-section p {
-  margin: 0;
-  font-size: 0.9rem;
-  opacity: 0.9;
-}
-
-/* --- Name Day Display --- */
-.name-day-banner {
-  font-size: 0.85rem;
-  font-style: italic;
+.calendar-day.holiday {
   color: var(--accent-color);
-  text-align: center;
-  margin-top: 5px;
+  border: 1px solid var(--accent-color);
 }
+
+/* --- Info Panel Styling --- */
+.info-panel {
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.3));
+}
+
+.phrase-pl { font-size: 1.5rem; font-weight: bold; margin-bottom: 5px; }
+.phrase-phonetic { font-style: italic; opacity: 0.8; margin-bottom: 5px; color: #aaa; }
+.phrase-en { font-size: 1rem; opacity: 0.7; }
+
+/* --- Buttons & Nav --- */
+.controls { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
+
+button {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+button.main-cta { background: var(--accent-color); }
+
+nav {
+  display: flex;
+  justify-content: space-around;
+  padding: 15px 0;
+  background: #181818;
+  border-top: 1px solid var(--border-color);
+}
+
+.nav-item { display: flex; flex-direction: column; align-items: center; opacity: 0.6; }
+.nav-item.active { opacity: 1; color: var(--accent-color); }
