@@ -1,0 +1,19 @@
+{
+  "name": "Learn Polish Dates",
+  "short_name": "PL Dates",
+  "description": "Master Polish dates, holidays, and cultural etymology.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#DC143C",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

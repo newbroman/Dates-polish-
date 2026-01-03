@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Learn Polish Dates</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <meta name="theme-color" content="#DC143C">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="title">Learn Polish Dates</div>
+        <button id="langToggle" class="secondary">EN | PL</button>
+    </header>
+
+    <main class="calendar-container" id="calendarSection">
+        <div class="calendar-navigation">
+            <button id="prevMonth" aria-label="Previous Month">&lt;</button>
+            <h2 id="currentMonthYearDisplay">...</h2>
+            <button id="nextMonth" aria-label="Next Month">&gt;</button>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid">
+            <div class="day-name">Sun</div>
+            <div class="day-name">Mon</div>
+            <div class="day-name">Tue</div>
+            <div class="day-name">Wed</div>
+            <div class="day-name">Thu</div>
+            <div class="day-name">Fri</div>
+            <div class="day-name">Sat</div>
+            </div>
+    </main>
+
+    <section id="culturalHub" class="cultural-page" style="display: none;">
+        <div class="hub-header">
+            <h2>Kultura i Etymologia</h2>
+            <p>Origins of Polish Date Names</p>
+        </div>
+        <div class="cultural-list" id="monthsEtymology"></div>
+        <div class="cultural-list" id="daysEtymology"></div>
+    </section>
+
+    <section class="info-panel">
+        <div id="culturalNote" class="holiday-banner" style="display: none;"></div>
+        
+        <div class="phrase-group">
+            <div id="plPhrase" class="phrase-pl">---</div>
+            <div id="phoneticPhrase" class="phrase-phonetic">---</div>
+            <div id="enPhrase" class="phrase-en">---</div>
+        </div>
+
+        <div class="controls">
+            <button id="playBtn" class="main-cta">🔊 Listen</button>
+            <button id="repeatYearBtn" class="secondary">Repeat Year: OFF</button>
+        </div>
+    </section>
+
+    <nav>
+        <div class="nav-item active" id="navCalendar">
+            <span class="nav-icon">📅</span>
+            <span>Calendar</span>
+        </div>
+        <div class="nav-item" id="navCulture">
+            <span class="nav-icon">🏛️</span>
+            <span>Culture</span>
+        </div>
+    </nav>
+
+    <script type="module" src="app.js"></script>
+    <script>
+        // Register Service Worker for Offline PWA Support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('SW Registered'))
+                    .catch(err => console.log('SW Failed', err));
+            });
+        }
+    </script>
+</body>
+</html>
