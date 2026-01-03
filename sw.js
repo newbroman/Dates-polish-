@@ -1,13 +1,13 @@
-const CACHE_NAME = 'pl-dates-v1';
+const CACHE_NAME = 'pl-dates-v2'; // Incrementing this forces a browser update
 
-// List of assets to be cached for offline use
+// List of all files to cache for offline learning
 const ASSETS = [
   './',
   './index.html',
   './styles.css',
   './app.js',
   './holiday.js',
-  './cultural.js', // This is the file you just updated
+  './cultural.js',
   './year.js',
   './phonetics.js',
   './manifest.json',
@@ -15,19 +15,21 @@ const ASSETS = [
 ];
 
 /**
- * Install Event: Caches all static assets
+ * Install Event: Caches all static assets.
+ * This is where the Polish grammar guide and etymologies are stored locally.
  */
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('PWA: Caching all assets for offline use');
+      console.log('PWA: Caching assets for offline Polish learning');
       return cache.addAll(ASSETS);
     })
   );
 });
 
 /**
- * Activate Event: Cleans up old caches if the version changes
+ * Activate Event: Removes old cache versions.
+ * This ensures that the new seasonal themes (Winter, Spring, etc.) are applied.
  */
 self.addEventListener('activate', (event) => {
   event.waitUntil(
@@ -35,7 +37,7 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
-            console.log('PWA: Clearing old cache');
+            console.log('PWA: Clearing old cache version');
             return caches.delete(cache);
           }
         })
@@ -45,13 +47,13 @@ self.addEventListener('activate', (event) => {
 });
 
 /**
- * Fetch Event: Serves assets from cache when offline
+ * Fetch Event: Network-First Strategy.
+ * This attempts to get the latest update from GitHub first, falling back to cache if offline.
  */
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      // Return cached file, or fetch from network if not in cache
-      return response || fetch(event.request);
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
     })
   );
 });

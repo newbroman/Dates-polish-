@@ -4,83 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Learn Polish Dates</title>
-    
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon.png">
-    <meta name="theme-color" content="#DC143C">
-    
-    <link rel="stylesheet" href="styles.css?v=1.0">
+    <link rel="stylesheet" href="styles.css?v=1.11">
 </head>
-<body>
-
-    <header>
-        <div class="title">Learn Polish Dates</div>
-        <button id="langToggle" class="secondary">EN | PL</button>
+<body class="spring"> <header class="app-header">
+        <div class="flag-bg">
+            <h1 class="flag-text">Learn Polish Dates</h1>
+        </div>
+        <div class="header-controls">
+            <button id="langToggle">EN | PL</button>
+        </div>
     </header>
 
-    <main class="calendar-container" id="calendarSection">
+    <main id="calendarSection">
         <div class="calendar-navigation">
-            <button id="prevMonth" aria-label="Previous Month">&lt;</button>
-            <h2 id="currentMonthYearDisplay">...</h2>
-            <button id="nextMonth" aria-label="Next Month">&gt;</button>
+            <button id="prevMonth" aria-label="Previous">&lt;</button>
+            <h2 id="currentMonthYearDisplay">Maj 2026</h2>
+            <button id="nextMonth" aria-label="Next">&gt;</button>
         </div>
 
         <div class="calendar-grid" id="calendarGrid">
-            <div class="day-name">Sun</div>
-            <div class="day-name">Mon</div>
-            <div class="day-name">Tue</div>
-            <div class="day-name">Wed</div>
-            <div class="day-name">Thu</div>
-            <div class="day-name">Fri</div>
+            <div class="day-name">Sun</div><div class="day-name">Mon</div>
+            <div class="day-name">Tue</div><div class="day-name">Wed</div>
+            <div class="day-name">Thu</div><div class="day-name">Fri</div>
             <div class="day-name">Sat</div>
             </div>
     </main>
 
-    <section id="culturalHub" class="cultural-page" style="display: none;">
-        <div class="hub-header">
-            <h2>Kultura i Etymologia</h2>
-            <p>Origins of Polish Date Names</p>
-        </div>
-        <div class="cultural-list" id="monthsEtymology"></div>
-        <div class="cultural-list" id="daysEtymology"></div>
-    </section>
+    <section id="culturalHub" style="display: none;">
+        </section>
 
     <section class="info-panel">
-        <div id="culturalNote" class="holiday-banner" style="display: none;"></div>
-        
+        <div id="culturalNote" class="holiday-banner"></div>
         <div class="phrase-group">
             <div id="plPhrase" class="phrase-pl">---</div>
             <div id="phoneticPhrase" class="phrase-phonetic">---</div>
             <div id="enPhrase" class="phrase-en">---</div>
         </div>
-
         <div class="controls">
             <button id="playBtn" class="main-cta">🔊 Listen</button>
             <button id="repeatYearBtn" class="secondary">Repeat Year: OFF</button>
         </div>
     </section>
 
-    <nav>
-        <div class="nav-item active" id="navCalendar">
-            <span class="nav-icon">📅</span>
-            <span>Calendar</span>
-        </div>
-        <div class="nav-item" id="navCulture">
-            <span class="nav-icon">🏛️</span>
-            <span>Culture</span>
-        </div>
+    <nav class="bottom-nav">
+        <button class="nav-item active" id="navCalendar">
+            <span class="icon">📅</span>
+            <span class="label">Calendar</span>
+        </button>
+        <button class="nav-item" id="navCulture">
+            <span class="icon">🏛️</span>
+            <span class="label">Culture</span>
+        </button>
     </nav>
 
     <script type="module" src="app.js"></script>
-    <script>
-        // Register Service Worker for Offline PWA Support
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(reg => console.log('SW Registered'))
-                    .catch(err => console.log('SW Failed', err));
-            });
-        }
-    </script>
 </body>
 </html>

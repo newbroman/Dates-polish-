@@ -3,11 +3,12 @@
   --bg-color: #121212;
   --container-bg: #1e1e1e;
   --text-primary: #ffffff;
-  --accent-color: #dc143c; /* Polish Crimson */
+  --accent-color: #dc143c; /* Default Polish Crimson */
   --border-color: #333333;
 }
 
-/* --- Seasonal Themes from cultural.js --- */
+/* --- Seasonal Accent Themes --- */
+/* These map directly to the 'season' property in your cultural.js */
 body.winter { --accent-color: #0984e3; }
 body.spring { --accent-color: #27ae60; }
 body.summer { --accent-color: #f1c40f; }
@@ -15,16 +16,41 @@ body.autumn { --accent-color: #d35400; }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  padding-bottom: 80px; /* Space for fixed bottom nav */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-primary);
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
 }
 
-/* --- Calendar Header & Grid --- */
+/* --- Polish Flag Header --- */
+.app-header {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.flag-bg {
+  /* Creates horizontal white-on-red split */
+  background: linear-gradient(to bottom, #ffffff 50%, #dc143c 50%);
+  padding: 15px 0;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.flag-text {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  /* Red text on top, White text on bottom */
+  background: linear-gradient(to bottom, #dc143c 50%, #ffffff 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --- Calendar Section --- */
 .calendar-navigation {
   display: flex;
   justify-content: space-between;
@@ -42,6 +68,8 @@ body {
   border-radius: 12px;
 }
 
+.day-name { font-size: 0.8rem; text-align: center; color: #888; padding-bottom: 5px; }
+
 .calendar-day {
   aspect-ratio: 1;
   display: flex;
@@ -49,7 +77,7 @@ body {
   justify-content: center;
   border-radius: 8px;
   cursor: pointer;
-  transition: 0.2s;
+  font-size: 0.9rem;
 }
 
 .calendar-day.selected {
@@ -63,39 +91,30 @@ body {
   border: 1px solid var(--accent-color);
 }
 
-/* --- Info Panel Styling --- */
+/* --- Cultural Hub / Grammar Guide --- */
+.grammar-guide-card {
+  background: var(--accent-color);
+  color: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin: 15px;
+}
+
+.guide-section h4 { margin: 10px 0 2px 0; text-decoration: underline; }
+.guide-section p { margin: 0; font-size: 0.85rem; opacity: 0.9; }
+
+.cultural-item {
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
+  margin: 0 15px;
+}
+
+/* --- Info Panel --- */
 .info-panel {
-  flex: 1;
   padding: 20px;
   text-align: center;
-  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.3));
 }
 
-.phrase-pl { font-size: 1.5rem; font-weight: bold; margin-bottom: 5px; }
-.phrase-phonetic { font-style: italic; opacity: 0.8; margin-bottom: 5px; color: #aaa; }
-.phrase-en { font-size: 1rem; opacity: 0.7; }
-
-/* --- Buttons & Nav --- */
-.controls { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
-
-button {
-  background: #333;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
-  font-weight: bold;
-}
-
-button.main-cta { background: var(--accent-color); }
-
-nav {
-  display: flex;
-  justify-content: space-around;
-  padding: 15px 0;
-  background: #181818;
-  border-top: 1px solid var(--border-color);
-}
-
-.nav-item { display: flex; flex-direction: column; align-items: center; opacity: 0.6; }
-.nav-item.active { opacity: 1; color: var(--accent-color); }
+.phrase-pl { font-size: 1.4rem; font-weight: bold; margin-bottom: 4px; }
+.phrase-phonetic { font-style: italic; opacity: 0.7; color: #aaa; margin-bottom: 4px; }
+.phrase-en { font-size: 0.
