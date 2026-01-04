@@ -149,3 +149,40 @@ document.getElementById('langToggle').onclick = () => {
     // Refresh the Month Roller Labels
     const mRoller = document.getElementById('monthRoller');
     const currentM = mRoller.value;
+    mRoller.innerHTML = '';
+    for (let i = 0; i < 12; i++) {
+        const label = interfaceLang === 'EN' 
+            ? new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(2020, i))
+            : culturalData.months[i].pl;
+        mRoller.add(new Option(label, i));
+    }
+    mRoller.value = currentM;
+    updateUI();
+};
+
+document.getElementById('prevMonth').onclick = () => { viewDate.setMonth(viewDate.getMonth() - 1); renderCalendar(); };
+document.getElementById('nextMonth').onclick = () => { viewDate.setMonth(viewDate.getMonth() + 1); renderCalendar(); };
+
+document.getElementById('playBtn').onclick = () => {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(document.getElementById('plPhrase').innerText);
+    utterance.lang = 'pl-PL';
+    utterance.rate = 0.85;
+    window.speechSynthesis.speak(utterance);
+};
+
+document.getElementById('repeatYearBtn').onclick = () => { repeatYear = !repeatYear; updateUI(); };
+document.getElementById('monthRoller').onchange = (e) => { viewDate.setMonth(e.target.value); renderCalendar(); };
+document.getElementById('yearRoller').onchange = (e) => { viewDate.setFullYear(e.target.value); renderCalendar(); };
+
+// --- 5. INITIALIZATION ---
+window.onload = () => {
+    const mR = document.getElementById('monthRoller');
+    for (let i = 0; i < 12; i++) {
+        mR.add(new Option(new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(2020, i)), i));
+    }
+    const yR = document.getElementById('yearRoller');
+    for (let i = 0; i <= 3000; i++) yR.add(new Option(i, i));
+    
+    renderCalendar();
+};
