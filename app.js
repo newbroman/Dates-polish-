@@ -133,3 +133,52 @@ document.getElementById('repeatYearBtn').onclick = () => {
 };
 
 // ... include renderCalendar() and window.onload as previously defined ...
+function renderCalendar() {
+    const grid = document.getElementById('calendarGrid');
+    const mRoller = document.getElementById('monthRoller');
+    const yRoller = document.getElementById('yearRoller');
+    
+    grid.innerHTML = '';
+    const year = viewDate.getFullYear();
+    const month = viewDate.getMonth();
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    // Fill empty slots for previous month
+    for (let i = 0; i < firstDay; i++) {
+        grid.appendChild(document.createElement('div'));
+    }
+
+    // Render days
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dayEl = document.createElement('div');
+        dayEl.className = 'calendar-day';
+        dayEl.innerText = day;
+        
+        if (new Date(year, month, day).toDateString() === selectedDate.toDateString()) {
+            dayEl.classList.add('selected');
+        }
+
+        dayEl.onclick = () => {
+            selectedDate = new Date(year, month, day);
+            updateUI();
+            renderCalendar();
+        };
+        grid.appendChild(dayEl);
+    }
+    updateUI();
+}
+
+window.onload = () => {
+    // Populate month/year selectors
+    const mR = document.getElementById('monthRoller');
+    for (let i = 0; i < 12; i++) {
+        mR.add(new Option(new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(2020, i)), i));
+    }
+    const yR = document.getElementById('yearRoller');
+    for (let i = 2020; i <= 2030; i++) {
+        yR.add(new Option(i, i));
+    }
+    renderCalendar();
+};
