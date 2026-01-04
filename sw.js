@@ -1,6 +1,6 @@
-const CACHE_NAME = 'pl-dates-v3'; // Incrementing this forces a browser update
+const CACHE_NAME = 'pl-dates-v5';
 
-// List of all files to cache for offline learning
+// List of all assets to be cached for offline use
 const ASSETS = [
   './',
   './index.html',
@@ -9,36 +9,28 @@ const ASSETS = [
   './holiday.js',
   './cultural.js',
   './year.js',
-  './phonetics.js',
+  './phonetics.js', // Added the new phonetics module
   './manifest.json',
   './icon.png'
 ];
 
-/**
- * Install Event: Caches all static assets.
- * This is where the Polish grammar guide and etymologies are stored locally.
- */
+// Install Event: Cache all files
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('PWA: Caching assets for offline Polish learning');
       return cache.addAll(ASSETS);
     })
   );
 });
 
-/**
- * Activate Event: Removes old cache versions.
- * This ensures that the new seasonal themes (Winter, Spring, etc.) are applied.
- */
+// Activate Event: Clear old caches (v1 through v4)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
+    caches.keys().then((keys) => {
       return Promise.all(
-        cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
-            console.log('PWA: Clearing old cache version');
-            return caches.delete(cache);
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
           }
         })
       );
@@ -46,10 +38,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-/**
- * Fetch Event: Network-First Strategy.
- * This attempts to get the latest update from GitHub first, falling back to cache if offline.
- */
+// Fetch Event: Try network first, fall back to cache
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(event.request).catch(() => {

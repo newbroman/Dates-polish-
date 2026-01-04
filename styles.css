@@ -7,8 +7,7 @@
   --border-color: #333333;
 }
 
-/* --- Seasonal Accent Themes --- */
-/* These map to the 'season' property in cultural.js */
+/* --- Seasonal Accent Themes (Driven by cultural.js) --- */
 body.winter { --accent-color: #0984e3; }
 body.spring { --accent-color: #27ae60; }
 body.summer { --accent-color: #f1c40f; }
@@ -16,7 +15,7 @@ body.autumn { --accent-color: #d35400; }
 
 body {
   margin: 0;
-  padding-bottom: 90px; /* Space for fixed bottom nav */
+  padding-bottom: 90px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-primary);
@@ -32,7 +31,6 @@ body {
 }
 
 .flag-bg {
-  /* Creates horizontal white-on-red split */
   background: linear-gradient(to bottom, #ffffff 50%, #dc143c 50%);
   padding: 15px 0;
   text-align: center;
@@ -44,7 +42,7 @@ body {
   font-size: 1.8rem;
   font-weight: 900;
   text-transform: uppercase;
-  color: #000000; /* Forced solid black text for readability */
+  color: #000000; /* Solid Black as requested */
   letter-spacing: 1px;
 }
 
@@ -54,42 +52,7 @@ body {
   justify-content: flex-end;
 }
 
-/* --- Navigation Buttons --- */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 75px;
-  background: #000000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  border-top: 1px solid var(--border-color);
-  z-index: 1000;
-}
-
-.nav-item {
-  background-color: #ffffff; /* White background as requested */
-  color: #000000;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 25px; /* Pill shape */
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.nav-item.active {
-  background-color: var(--accent-color); /* Changes based on season */
-  color: white;
-}
-
-/* --- Calendar Section --- */
+/* --- Calendar Navigation & Rollers --- */
 .calendar-navigation {
   display: flex;
   justify-content: space-between;
@@ -97,6 +60,36 @@ body {
   padding: 10px 20px;
 }
 
+.rollers-container {
+  display: flex;
+  gap: 10px;
+  background: #2a2a2a;
+  padding: 5px 15px;
+  border-radius: 20px;
+  border: 1px solid #444;
+}
+
+.roller-select {
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+  appearance: none; /* Removes default arrow for "roller" look */
+  text-align: center;
+}
+
+.nav-arrow {
+  background: transparent;
+  color: var(--accent-color);
+  font-size: 1.5rem;
+  border: none;
+  padding: 10px;
+}
+
+/* --- Calendar Grid --- */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -107,4 +100,118 @@ body {
   border-radius: 12px;
 }
 
-.day-name { font-size: 0.8rem; text-align: center; color: #888; padding-bottom:
+.day-name { font-size: 0.8rem; text-align: center; color: #888; padding-bottom: 5px; }
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.calendar-day.selected {
+  background: var(--accent-color);
+  color: white;
+  font-weight: bold;
+}
+
+.calendar-day.holiday {
+  color: var(--accent-color);
+  font-weight: bold;
+  border: 1px solid var(--accent-color);
+}
+
+/* --- Info Panel & Actions --- */
+.info-panel {
+  padding: 20px;
+  text-align: center;
+}
+
+.phrase-pl { font-size: 1.6rem; font-weight: bold; margin-bottom: 4px; }
+.phrase-phonetic { font-style: italic; opacity: 0.7; color: #aaa; margin-bottom: 10px; }
+.phrase-en { font-size: 1rem; opacity: 0.6; margin-bottom: 20px; }
+
+.action-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.pill-btn {
+  padding: 12px 24px;
+  border-radius: 30px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.pill-btn:active { transform: scale(0.95); }
+
+.main-cta {
+  background-color: var(--accent-color);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.secondary-cta {
+  background-color: #333;
+  color: #ccc;
+  border: 1px solid #444;
+}
+
+/* --- Bottom Navigation --- */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 75px;
+  background: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border-top: 1px solid #333;
+  z-index: 1000;
+}
+
+.nav-item {
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nav-item.active {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.pill-btn-sm {
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+}
+
+/* --- Cultural Hub View --- */
+#culturalHub {
+  padding: 20px;
+}
+
+.grammar-guide-card {
+  background: var(--accent-color);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
