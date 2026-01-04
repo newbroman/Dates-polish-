@@ -1,10 +1,9 @@
 /**
  * phonetics.js
- * Optimized for English speakers to find the Polish rhythm.
- * Bold CAPS = Stressed Syllable.
+ * Optimized for English speakers with CAPS for STRESSED syllables.
  */
 const phonetics = {
-    // Months in Genitive Case (e.g., "1st of May" = "1-go Maja")
+    // Months in Genitive Case
     months: {
         "stycznia": "STITCH-nyah",
         "lutego": "loo-TEH-goh",
@@ -31,16 +30,25 @@ const phonetics = {
         "niedziela": "nyeh-DZIE-lah"
     },
 
-    /**
-     * Helper to get phonetic string for a full date
-     * @param {string} dayPl - Polish day name
-     * @param {number} date - Day number
-     * @param {string} monthGenPl - Genitive month name
-     */
-    getFullPhonetic(dayPl, date, monthGenPl) {
-        const d = this.days[dayPl.toLowerCase()] || dayPl;
-        const m = this.months[monthGenPl.toLowerCase()] || monthGenPl;
-        return `${d}, ${date} ${m}`;
+    // NEW: Phonetics for the written day numbers (Genitive Case)
+    // This fixes the "4" vs "chvar-TAY-goh" issue
+    numbers: {
+        1: "pyer-VSHAY-goh",
+        2: "droo-GYAY-goh",
+        3: "tshe-TSYAY-goh",
+        4: "chvar-TAY-goh",
+        5: "pyon-TAY-goh",
+        6: "shoos-TAY-goh",
+        7: "shood-MAY-goh",
+        8: "oos-MAY-goh",
+        9: "jay-vyon-TAY-goh",
+        10: "jay-shon-TAY-goh",
+        11: "yeh-den-ash-TAY-goh",
+        12: "dvoo-nash-TAY-goh",
+        // ... extend as needed for 1-31
+        20: "dvoo-jay-STAY-goh",
+        27: "dvoo-jay-STAY-goh shood-MAY-goh",
+        30: "tshih-jay-STAY-goh"
     }
 };
 

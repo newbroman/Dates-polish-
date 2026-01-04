@@ -6,6 +6,8 @@
     <title>Learn Polish Dates</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body class="spring">
 
@@ -13,45 +15,47 @@
         <div class="flag-bg">
             <h1 class="flag-text">LEARN POLISH DATES</h1>
         </div>
-        <div class="header-controls">
-            <button id="langToggle" class="pill-btn-sm">EN | PL</button>
+        
+        <div class="header-nav-row">
+            <div class="view-switches">
+                <button class="nav-btn active" id="navCalendar" aria-label="Calendar View">📅</button>
+                <button class="nav-btn" id="navCulture" aria-label="Culture Hub">🏛️</button>
+            </div>
+            <button id="langToggle" class="pill-btn-sm">PL | EN</button>
         </div>
     </header>
 
     <main id="calendarSection">
         <div class="calendar-navigation">
-            <button id="prevMonth" class="nav-arrow">&lt;</button>
+            <button id="prevMonth" class="nav-arrow" aria-label="Previous Month">&lt;</button>
             <div class="rollers-container">
                 <select id="monthRoller" class="roller-select"></select>
                 <select id="yearRoller" class="roller-select"></select>
             </div>
-            <button id="nextMonth" class="nav-arrow">&gt;</button>
+            <button id="nextMonth" class="nav-arrow" aria-label="Next Month">&gt;</button>
         </div>
 
-        <div class="calendar-grid" id="calendarGrid"></div>
+        <div class="calendar-grid" id="calendarGrid">
+            </div>
     </main>
 
-    <section id="culturalHub" style="display: none; padding: 20px;"></section>
+    <section id="culturalHub" class="content-overlay" style="display: none;">
+        </section>
 
     <section class="info-panel">
-        <div id="culturalNote" class="holiday-banner" style="display: none;"></div>
-        
         <div class="phrase-display">
             <div id="plPhrase" class="phrase-pl">---</div>
+            
             <div id="phoneticPhrase" class="phrase-phonetic">---</div>
+            
             <div id="enPhrase" class="phrase-en">---</div>
         </div>
 
         <div class="action-bar">
-            <button id="playBtn" class="pill-btn main-cta">🔊 Listen</button>
-            <button id="repeatYearBtn" class="pill-btn secondary-cta">Repeat Year: OFF</button>
+            <button id="playBtn" class="pill-btn main-cta">🔊 Słuchaj</button>
+            <button id="repeatYearBtn" class="pill-btn secondary-cta">Powtórz rok: TAK</button>
         </div>
     </section>
-
-    <nav class="bottom-nav">
-        <button class="nav-item active" id="navCalendar">📅 Calendar</button>
-        <button class="nav-item" id="navCulture">🏛️ Culture</button>
-    </nav>
 
     <script type="module" src="app.js"></script>
 </body>

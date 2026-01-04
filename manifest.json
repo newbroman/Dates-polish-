@@ -1,22 +1,29 @@
 {
-  "name": "Learn Polish Dates",
-  "short_name": "Polish Dates",
-  "description": "Learn Polish calendar dates, grammar, and phonetics.",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#121212",
-  "theme_color": "#dc143c",
+  "short_name": "PolishDates",
+  "name": "Learn Polish Dates PWA",
   "icons": [
     {
-      "src": "icon.png",
-      "sizes": "192x192",
+      "src": "icon-192.png",
       "type": "image/png",
-      "purpose": "any maskable"
+      "sizes": "192x192"
     },
     {
-      "src": "icon.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#1a1a1a",
+  "display": "standalone",
+  "scope": "./",
+  "theme_color": "#e6192e",
+  "shortcuts": [
+    {
+      "name": "Open Calendar",
+      "short_name": "Calendar",
+      "url": "./index.html",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     }
   ]
 }
