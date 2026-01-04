@@ -1,6 +1,5 @@
-const CACHE_NAME = 'pl-dates-v5';
+const CACHE_NAME = 'pl-dates-v6';
 
-// List of all assets to be cached for offline use
 const ASSETS = [
   './',
   './index.html',
@@ -9,21 +8,21 @@ const ASSETS = [
   './holiday.js',
   './cultural.js',
   './year.js',
-  './phonetics.js', // Added the new phonetics module
+  './phonetics.js',
+  './numbers.js', // Added for the new written numbers module
   './manifest.json',
   './icon.png'
 ];
 
-// Install Event: Cache all files
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
+      console.log('Caching all Polish Date modules');
       return cache.addAll(ASSETS);
     })
   );
 });
 
-// Activate Event: Clear old caches (v1 through v4)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -38,7 +37,6 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch Event: Try network first, fall back to cache
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(event.request).catch(() => {
