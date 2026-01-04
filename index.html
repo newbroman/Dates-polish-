@@ -20,40 +20,38 @@
             <div class="view-switches">
                 <button class="nav-btn active" id="navCalendar" aria-label="Calendar View">📅</button>
                 <button class="nav-btn" id="navCulture" aria-label="Culture Hub">🏛️</button>
+                <button class="nav-btn" id="navRules" aria-label="Grammar Rules">📖</button> </div>
+            
+            <div class="utility-controls">
+                <button id="todayBtn" class="pill-btn-sm">📅 Today</button> <button id="langToggle" class="pill-btn-sm">PL | EN</button>
             </div>
-            <button id="langToggle" class="pill-btn-sm">PL | EN</button>
         </div>
     </header>
 
     <main id="calendarSection">
         <div class="calendar-navigation">
-            <button id="prevMonth" class="nav-arrow" aria-label="Previous Month">&lt;</button>
+            <button id="prevMonth" class="nav-arrow">&lt;</button>
             <div class="rollers-container">
                 <select id="monthRoller" class="roller-select"></select>
                 <select id="yearRoller" class="roller-select"></select>
             </div>
-            <button id="nextMonth" class="nav-arrow" aria-label="Next Month">&gt;</button>
+            <button id="nextMonth" class="nav-arrow">&gt;</button>
         </div>
-
-        <div class="calendar-grid" id="calendarGrid">
-            </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
     </main>
 
-    <section id="culturalHub" class="content-overlay" style="display: none;">
-        </section>
+    <section id="culturalHub" class="content-overlay" style="display: none;"></section>
 
-    <section class="info-panel">
+    <section id="rulesPage" class="content-overlay" style="display: none;"></section> <section class="info-panel">
         <div class="phrase-display">
             <div id="plPhrase" class="phrase-pl">---</div>
-            
             <div id="phoneticPhrase" class="phrase-phonetic">---</div>
-            
             <div id="enPhrase" class="phrase-en">---</div>
         </div>
 
         <div class="action-bar">
             <button id="playBtn" class="pill-btn main-cta">🔊 Słuchaj</button>
-            <button id="repeatYearBtn" class="pill-btn secondary-cta">Powtórz rok: TAK</button>
+            <button id="repeatYearBtn" class="pill-btn secondary-cta">Include Year: ON</button>
         </div>
     </section>
 

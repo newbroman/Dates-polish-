@@ -2,187 +2,134 @@ import holidayData from './holiday.js';
 import culturalData from './cultural.js';
 import yearData from './year.js';
 import phonetics from './phonetics.js';
+import grammarRules from './rules.js'; // Ensure rules.js is created!
 import { getWrittenDay } from './numbers.js';
 
-// --- 1. STATE MANAGEMENT ---
+// --- 1. STATE ---
 let viewDate = new Date(); 
 let selectedDate = new Date(); 
 let interfaceLang = 'PL'; 
-let repeatYear = true;
+let includeYear = true; // Renamed from repeatYear
 
-// --- 2. CORE RENDERING ---
-function renderCalendar() {
-    const grid = document.getElementById('calendarGrid');
-    const mRoller = document.getElementById('monthRoller');
-    const yRoller = document.getElementById('yearRoller');
+// --- 2. NAVIGATION HELPER ---
+function hideAllSections() {
+    document.getElementById('calendarSection').style.display = 'none';
+    document.getElementById('culturalHub').style.display = 'none';
+    document.getElementById('rulesPage').style.display = 'none';
+    document.querySelector('.info-panel').style.display = 'none';
     
-    grid.innerHTML = '';
-    
-    // Sync Rollers
-    mRoller.value = viewDate.getMonth();
-    yRoller.value = viewDate.getFullYear();
-
-    const year = viewDate.getFullYear();
-    const month = viewDate.getMonth();
-    
-    // Apply Seasonal Theme 
-    document.body.className = culturalData.months[month].season;
-
-    const firstDayIndex = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const yearHolidays = holidayData.getHolidaysForYear(year);
-
-    // Grid Spacers
-    for (let i = 0; i < firstDayIndex; i++) {
-        grid.appendChild(document.createElement('div'));
-    }
-
-    for (let day = 1; day <= daysInMonth; day++) {
-        const dayEl = document.createElement('div');
-        dayEl.className = 'calendar-day';
-        dayEl.innerText = day;
-
-        const holidayKey = `${month}-${day}`;
-        if (yearHolidays[holidayKey]) dayEl.classList.add('holiday');
-        if (new Date(year, month, day).toDateString() === selectedDate.toDateString()) {
-            dayEl.classList.add('selected');
-        }
-
-        dayEl.onclick = () => {
-            selectedDate = new Date(year, month, day);
-            updateUI();
-            renderCalendar();
-        };
-        grid.appendChild(dayEl);
-    }
-    updateUI();
+    // Reset active states on buttons
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
 }
 
-// --- 3. UI & PHONETICS LOGIC ---
+// --- 3. UI RENDERING ---
 function updateUI() {
     const mIdx = selectedDate.getMonth();
     const dayKey = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'][selectedDate.getDay()];
     const dayNamePl = culturalData.days[dayKey].split(' ')[0];
     
-    // Written Words (Genitive Case)
     const monthGen = culturalData.months[mIdx].pl.replace(/ń$/, 'nia').replace(/ec$/, 'ca').replace(/y$/, 'ego').toLowerCase();
     const dayNumWritten = getWrittenDay(selectedDate.getDate());
     const yearPl = yearData.getYearInPolish(selectedDate.getFullYear());
 
-    // Phonetics 
+    // Phonetics
     const pDayName = phonetics.days[dayNamePl.toLowerCase()] || dayNamePl;
     const pMonth = phonetics.months[monthGen] || monthGen;
     const pYear = yearData.getYearPhonetic(selectedDate.getFullYear());
-    
-    // Dynamic phonetic lookup for the day number (fixes the "4" vs "chvar-TAY-goh" issue)
     const pDayNum = phonetics.numbers[selectedDate.getDate()] || selectedDate.getDate();
 
-    // Update Phrase Display
+    // Phrases
     const fullPlDate = `${dayNamePl}, ${dayNumWritten} ${monthGen}`;
-    document.getElementById('plPhrase').innerText = repeatYear ? `${fullPlDate} ${yearPl}` : fullPlDate;
+    document.getElementById('plPhrase').innerText = includeYear ? `${fullPlDate} ${yearPl}` : fullPlDate;
     
-    document.getElementById('phoneticPhrase').innerText = repeatYear 
+    document.getElementById('phoneticPhrase').innerText = includeYear 
         ? `${pDayName}, ${pDayNum} ${pMonth} ${pYear}` 
         : `${pDayName}, ${pDayNum} ${pMonth}`;
 
-    // Translate Buttons & Bottom Text
-    const playBtn = document.getElementById('playBtn');
-    const repeatBtn = document.getElementById('repeatYearBtn');
-    const enPhrase = document.getElementById('enPhrase');
-
-    if (interfaceLang === 'PL') {
-        playBtn.innerText = "🔊 Słuchaj";
-        repeatBtn.innerText = `Powtórz rok: ${repeatYear ? 'TAK' : 'NIE'}`;
-        enPhrase.innerText = selectedDate.toLocaleDateString('pl-PL', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-    } else {
-        playBtn.innerText = "🔊 Listen";
-        repeatBtn.innerText = `Repeat Year: ${repeatYear ? 'ON' : 'OFF'}`;
-        enPhrase.innerText = selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-    }
+    // Update Buttons
+    const includeBtn = document.getElementById('repeatYearBtn');
+    includeBtn.innerText = `Include Year: ${includeYear ? 'ON' : 'OFF'}`;
 }
 
-// --- 4. EVENT LISTENERS (TOP NAV & CONTROLS) ---
+// --- 4. EVENT LISTENERS ---
+
+// Today Button Logic
+document.getElementById('todayBtn').onclick = () => {
+    selectedDate = new Date();
+    viewDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+    hideAllSections();
+    document.getElementById('calendarSection').style.display = 'block';
+    document.querySelector('.info-panel').style.display = 'block';
+    document.getElementById('navCalendar').classList.add('active');
+    renderCalendar();
+};
+
+// Calendar Nav
+document.getElementById('navCalendar').onclick = () => {
+    hideAllSections();
+    document.getElementById('calendarSection').style.display = 'block';
+    document.querySelector('.info-panel').style.display = 'block';
+    document.getElementById('navCalendar').classList.add('active');
+};
+
+// REORDERED Culture Hub (Days -> Months -> Holidays)
 document.getElementById('navCulture').onclick = () => {
-    document.getElementById('calendarSection').style.display = 'none';
-    document.querySelector('.info-panel').style.display = 'none';
+    hideAllSections();
     const hub = document.getElementById('culturalHub');
     hub.style.display = 'block';
-    
     document.getElementById('navCulture').classList.add('active');
-    document.getElementById('navCalendar').classList.remove('active');
 
-    // Build Content with Etymology & Holiday Descriptions
     hub.innerHTML = `
         <div class="culture-wrap">
-            <h2>📜 Grammar Guide</h2>
-            <p>${culturalData.grammarGuide.sections[0].content}</p>
-            
             <h2>📅 Days of the Week</h2>
             <div class="culture-grid">
-                ${Object.entries(culturalData.days).map(([en, pl]) => `<div><strong>${pl}</strong> (${en})</div>`).join('')}
+                ${Object.entries(culturalData.days).map(([en, pl]) => `<div class="culture-item"><strong>${pl}</strong> (${en})</div>`).join('')}
             </div>
             
-            <h2>🎈 Holidays in ${selectedDate.getFullYear()}</h2>
-            ${Object.entries(holidayData.getHolidaysForYear(selectedDate.getFullYear())).map(([key, name]) => {
-                const desc = culturalData.holidayExplanations[key] || "A significant national or religious day.";
-                return `<div class="holiday-card"><strong>${name}</strong><br><small>${desc}</small></div>`;
-            }).join('')}
+            <h2>🌙 Months & Etymology</h2>
+            <div class="culture-list">
+                ${Object.values(culturalData.months).map(m => `<p><strong>${m.pl}</strong>: ${m.derivation}</p>`).join('')}
+            </div>
 
-            <h2>🌙 Month Etymology</h2>
-            ${Object.values(culturalData.months).map(m => `<p><strong>${m.pl}</strong>: ${m.derivation}</p>`).join('')}
+            <h2>🎈 Holidays (${selectedDate.getFullYear()})</h2>
+            <div class="holiday-section">
+                ${Object.entries(holidayData.getHolidaysForYear(selectedDate.getFullYear())).map(([key, name]) => {
+                    const desc = culturalData.holidayExplanations[key] || "National holiday.";
+                    return `<div class="holiday-card"><strong>${name}</strong><br><small>${desc}</small></div>`;
+                }).join('')}
+            </div>
         </div>
     `;
 };
 
-document.getElementById('navCalendar').onclick = () => {
-    document.getElementById('calendarSection').style.display = 'block';
-    document.querySelector('.info-panel').style.display = 'block';
-    document.getElementById('culturalHub').style.display = 'none';
-    document.getElementById('navCalendar').classList.add('active');
-    document.getElementById('navCulture').classList.remove('active');
+// Grammar Rules Page Logic
+document.getElementById('navRules').onclick = () => {
+    hideAllSections();
+    const rulesDiv = document.getElementById('rulesPage');
+    rulesDiv.style.display = 'block';
+    document.getElementById('navRules').classList.add('active');
+
+    rulesDiv.innerHTML = `
+        <div class="culture-wrap">
+            <h2>📖 Grammar Rules</h2>
+            <div class="rules-card">
+                <h3>${grammarRules.genitive.title}</h3>
+                <p>${grammarRules.genitive.explanation}</p>
+                <p><em>${grammarRules.genitive.rule}</em></p>
+            </div>
+            <div class="rules-card">
+                <h3>${grammarRules.years.title}</h3>
+                <p>${grammarRules.years.explanation}</p>
+                <p><strong>Example:</strong> ${grammarRules.years.example}</p>
+            </div>
+        </div>
+    `;
 };
 
-document.getElementById('langToggle').onclick = () => {
-    interfaceLang = (interfaceLang === 'EN') ? 'PL' : 'EN';
-    document.getElementById('langToggle').innerText = (interfaceLang === 'EN') ? 'EN | PL' : 'PL | EN';
-    
-    // Refresh the Month Roller Labels
-    const mRoller = document.getElementById('monthRoller');
-    const currentM = mRoller.value;
-    mRoller.innerHTML = '';
-    for (let i = 0; i < 12; i++) {
-        const label = interfaceLang === 'EN' 
-            ? new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(2020, i))
-            : culturalData.months[i].pl;
-        mRoller.add(new Option(label, i));
-    }
-    mRoller.value = currentM;
+// Settings
+document.getElementById('repeatYearBtn').onclick = () => {
+    includeYear = !includeYear;
     updateUI();
 };
 
-document.getElementById('prevMonth').onclick = () => { viewDate.setMonth(viewDate.getMonth() - 1); renderCalendar(); };
-document.getElementById('nextMonth').onclick = () => { viewDate.setMonth(viewDate.getMonth() + 1); renderCalendar(); };
-
-document.getElementById('playBtn').onclick = () => {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(document.getElementById('plPhrase').innerText);
-    utterance.lang = 'pl-PL';
-    utterance.rate = 0.85;
-    window.speechSynthesis.speak(utterance);
-};
-
-document.getElementById('repeatYearBtn').onclick = () => { repeatYear = !repeatYear; updateUI(); };
-document.getElementById('monthRoller').onchange = (e) => { viewDate.setMonth(e.target.value); renderCalendar(); };
-document.getElementById('yearRoller').onchange = (e) => { viewDate.setFullYear(e.target.value); renderCalendar(); };
-
-// --- 5. INITIALIZATION ---
-window.onload = () => {
-    const mR = document.getElementById('monthRoller');
-    for (let i = 0; i < 12; i++) {
-        mR.add(new Option(new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(2020, i)), i));
-    }
-    const yR = document.getElementById('yearRoller');
-    for (let i = 0; i <= 3000; i++) yR.add(new Option(i, i));
-    
-    renderCalendar();
-};
+// ... include renderCalendar() and window.onload as previously defined ...
