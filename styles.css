@@ -1,8 +1,36 @@
+/* --- Global Styles --- */
+:root {
+    --accent-color: #e6192e;
+    --bg-dark: #121212;
+    --panel-bg: #1a1a1a;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg-dark);
+    color: white;
+}
+
 /* --- Header & Top Navigation --- */
 .app-header {
-    background: #1a1a1a;
+    background: var(--panel-bg);
     border-bottom: 2px solid #333;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
+}
+
+.flag-bg {
+    background: linear-gradient(to bottom, #fff 50%, #e6192e 50%);
+    padding: 15px;
+    text-align: center;
+}
+
+.flag-text {
+    margin: 0;
+    color: #000;
+    font-size: 1.5rem;
+    font-weight: 900;
 }
 
 .header-nav-row {
@@ -12,103 +40,66 @@
     padding: 10px 15px;
 }
 
-.view-switches {
-    display: flex;
-    gap: 8px;
-}
-
-.nav-btn {
-    background: #2d2d2d;
-    border: 1px solid #444;
-    border-radius: 8px;
-    font-size: 1.2rem;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.nav-btn.active {
-    background: #e6192e; /* Polish Red */
-    border-color: #fff;
-    transform: scale(1.05);
-}
-
-/* --- Culture Hub Overlay --- */
-#culturalHub {
-    position: fixed;
-    top: 110px; /* Below the header */
-    left: 0;
-    right: 0;
-    bottom: 200px; /* Above the phrase panel */
-    overflow-y: auto;
-    background: #121212;
-    padding: 20px;
-    z-index: 10;
-}
-
-.culture-wrap h2 {
-    color: #e6192e;
-    border-bottom: 1px solid #333;
-    padding-bottom: 5px;
-    margin-top: 25px;
-}
-
-.culture-grid {
+/* --- Calendar Grid Fix --- */
+.calendar-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin: 15px 0;
+    grid-template-columns: repeat(7, 1fr); /* Restores 7-day row structure */
+    gap: 8px;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-.culture-item {
-    background: #1e1e1e;
-    padding: 10px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    color: #ddd;
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2d2d2d;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.holiday-card {
-    background: rgba(230, 25, 46, 0.1);
-    border-left: 4px solid #e6192e;
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 4px;
+.calendar-day.selected {
+    background: #007bff;
+    box-shadow: 0 0 10px rgba(0,123,255,0.5);
 }
 
-.holiday-card strong {
-    color: #fff;
+.calendar-day.holiday {
+    border: 2px solid var(--accent-color);
 }
 
-.holiday-card small {
-    display: block;
-    color: #bbb;
-    margin-top: 4px;
-}
-
-/* --- Responsive Phrase Display --- */
-.phrase-display {
+/* --- Interaction Panel --- */
+.info-panel {
+    background: var(--panel-bg);
+    border-top: 1px solid #333;
+    padding: 20px;
     text-align: center;
-    padding: 15px;
-    background: #1a1a1a;
-    border-radius: 12px;
-    margin: 10px;
 }
 
 .phrase-pl {
     font-size: 1.3rem;
     font-weight: bold;
-    color: #fff;
+    margin-bottom: 8px;
 }
 
 .phrase-phonetic {
-    font-size: 1.1rem;
-    color: #ffd700; /* Gold for readability */
+    color: #ffd700;
     font-style: italic;
-    margin: 5px 0;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
 }
 
-.phrase-en {
-    font-size: 0.9rem;
-    color: #888;
+.nav-btn {
+    background: #333;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+.nav-btn.active {
+    background: var(--accent-color);
 }
