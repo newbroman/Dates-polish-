@@ -1,4 +1,4 @@
-/* --- Global & Theme Vars --- */
+/* --- Global & Theme Variables --- */
 :root {
     --accent-color: #e6192e; /* Polish Red */
     --bg-dark: #121212;
@@ -37,7 +37,6 @@ body {
     color: #000;
     font-size: 1.4rem;
     font-weight: 900;
-    letter-spacing: 1px;
 }
 
 .header-nav-row {
@@ -111,3 +110,157 @@ body {
     background: #333;
     border: none;
     color: white;
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* --- Calendar Grid (Fixes Vertical List) --- */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* Ensures 7 days per row */
+    gap: 8px;
+    padding: 0 15px 20px 15px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #222;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.1s;
+    border: 1px solid #333;
+}
+
+.calendar-day.selected {
+    background: #007bff;
+    color: white;
+    transform: scale(1.1);
+    z-index: 2;
+}
+
+.calendar-day.holiday {
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+}
+
+/* --- Content Overlays (Culture & Rules) --- */
+.content-overlay {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding-bottom: 220px; /* Prevents overlap with phrase panel */
+}
+
+.culture-wrap h2 {
+    color: var(--accent-color);
+    border-bottom: 1px solid #333;
+    padding-bottom: 8px;
+    margin-top: 30px;
+}
+
+.culture-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.culture-item {
+    background: #1e1e1e;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    border: 1px solid #333;
+}
+
+.holiday-card, .rules-card {
+    background: #1e1e1e;
+    border-left: 4px solid var(--accent-color);
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+}
+
+.rules-card {
+    border-left-color: var(--gold); /* Gold theme for grammar rules */
+}
+
+/* --- Bottom Info Panel --- */
+.info-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--panel-bg);
+    border-top: 2px solid #333;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.phrase-display {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.phrase-pl {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.phrase-phonetic {
+    font-size: 1.1rem;
+    color: var(--gold);
+    font-style: italic;
+    margin-bottom: 6px;
+}
+
+.phrase-en {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+}
+
+.action-bar {
+    display: flex;
+    gap: 10px;
+}
+
+.pill-btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: 30px;
+    border: none;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.main-cta {
+    background: var(--accent-color);
+    color: white;
+}
+
+.secondary-cta {
+    background: #333;
+    color: white;
+    border: 1px solid #444;
+}
+
+/* --- Seasonal Theme Backgrounds --- */
+body.spring { border-top: 5px solid #4caf50; }
+body.summer { border-top: 5px solid #ffeb3b; }
+body.autumn { border-top: 5px solid #ff9800; }
+body.winter { border-top: 5px solid #2196f3; }
