@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pl-dates-v2'; // Incrementing this forces a browser update
+const CACHE_NAME = 'pl-dates-v3'; // Incrementing this forces a browser update
 
 // List of all files to cache for offline learning
 const ASSETS = [
